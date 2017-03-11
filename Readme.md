@@ -13,6 +13,13 @@
 * `pip install -r requirements.txt`
 * To check if you can now run the project, see the instructions below
 
+* To set up the database:
+  * open postgresql
+  * create a user with username: `snl` and password: `snl_live`. 
+  * create a database with name `snldb` and owner `snl`
+* Get back to you project (in the directory where manage.py resides) and type `python manage.py migrate`
+
+
 ### Running the project
 
 * The project uses python3. To get it running first setup using instruction above and then go to your base project directory where you cloned it. (Activate the virtualenv using `source venv/bin/activate` if not already active)
