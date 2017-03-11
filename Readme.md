@@ -28,3 +28,9 @@
 * You should now be able to see the project live at `127.0.0.1:8000`
 
 Note: For installing virtualenv and setting up git config and other proxy config please check out the web. 
+
+## Unforseen Difficulties & Challenges
+
+1. Dataset picked from kaggle was not even in 1NF. The table snl_episode had non atomic values for hosts. It had JSON Array, so we had to write a script to parse the values into atomic fashion and change key to include hosts in the key, since all other attributes would have same values for a entry split.
+2. Other anamolies in the dataset. Also various columns had no values.
+3. Rows pointed to foreign keys which did not exist in other tables. For this those rows were manually removed to maintain refrential integrity.
