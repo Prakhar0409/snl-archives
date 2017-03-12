@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lte IE 9]><html class="no-js is-ie"><![endif]-->
+<!--[if gt IE 8]><!--><html class=no-js><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="BlackTie Free Bootstrap Theme">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	
+
+	<title>SNL Archives</title>
+	<link rel=stylesheet href="{% static "website/css/main.css" %}">
+	<link href="{% static "website/assets/css/style.css" %}" rel="stylesheet">
+	<!--[if lte IE 8]>
+	<link rel=stylesheet href="css/ie.css">
+	<![endif]-->
+		<script src="{% static "website/js/vendor/modernizr.js" %}"></script>
+
+		<script src="{% static "website/js/vendor/respond.min.js" %}"></script>
+
+</head>
+
+<body>
+	<div class="level level-hero hero-home has-hint">
+		<div class="hero-overlay visible-lg"></div>
+
+		<video loop id=bg-video class=fullscreen-video>
+			<source src="{% static "website/vids/snl_open.mp" %}" type="video/webm">
+			<source src="{% static "website/vids/snl_open.mp" %}" type="video/mp4">
+		</video>
+
+		<div class="container full-height">
+			<div class=v-align-parent>
+				<div class=v-center>
+					<div class="row">
+						<div class="col-xs-10 col-sm-6 on_banner">
+							<h1 class="mb-10 heading" >SNL <span>in INDIA!</span></h1>
+							<div class="subheading mb-20">The famous late night TV show "The Saturday Night Live" <br class=hidden-xs>rediscovered in India. </div>
+						</div>
+					</div>
+					<div>
+						<a class="btn btn-prepend btn-launch-video" href="https://goo.gl/vDrBA0">
+							<i class="prepended icon-append-play"></i>Prakhar's Favourite
+						</a>
+						<a class="btn btn-prepend" href="https://goo.gl/lTxuXv">
+							<i class="prepended icon-append-play"></i>Arka's Favourite
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class=hint-arrow></div>
+		</div>
+	</div>
+<!-- POST HEADER -->
+
+
+
+	<div class="container">
+		<div class="row centered mt mb">
+			<h2>Explore SNL</h2>
+			
+			<div class="col-lg-4 col-md-4 col-sm-4 gallery">
+				<a href="/seasons/">
+				<span class='img-responsive' style="font-size: xx-large; font-weight: bold; font-family: cursive;">SEASONS</span>
+				</a>
+				<!-- <a href="work.html"><img src="{% static "website/img/front.jpg" %}" class="img-responsive"></a> -->
+				<!-- <a href="work.html"><img src="{% static "website/assets/img/portfolio/folio01.png" %}" class="img-responsive"></a> -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 gallery">
+				<a href="/episodes/">
+				<span class='img-responsive' style="font-size: xx-large; font-weight: bold; font-family: cursive;">EPISODES</span>
+				</a>
+
+				<!-- <a href="work.html"><img src="{% static "cast.jpg" %}" class="img-responsive"></a> -->
+				<!-- <a href="work.html"><img src="{% static "website/assets/img/portfolio/folio02.png" %}" class="img-responsive"></a> -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 gallery">
+				<a href="/actors/">
+				<span class='img-responsive' style="font-size: xx-large; font-weight: bold; font-family: cursive;">ACTORS</span>
+				</a>
+				<!-- <a href="work.html"><img src="{% static "website/assets/img/portfolio/folio03.png" %}" class="img-responsive"></a> -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 gallery">
+				<a href="/seasons/"><img src="{% static "website/img/front_seasons.jpg" %}" class="img-responsive"></a>
+				<!-- <a href="work.html"><img src="{% static "website/assets/img/portfolio/folio04.png" %}" class="img-responsive"></a> -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 gallery">
+				<a href="/episodes/"><img src="{% static "website/img/front_episodes.jpg" %}" class="img-responsive"></a>
+				<!-- <a href="work.html"><img src="{% static "website/assets/img/portfolio/folio05.png" %}" class="img-responsive"></a> -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 gallery">
+				<a href="/actors/"><img src="{% static "website/img/front_actors.jpg" %}" class="img-responsive"></a>
+				<!-- <a href="work.html"><img src="{% static "website/assets/img/portfolio/folio06.png" %}" class="img-responsive"></a> -->
+			</div>
+		</div><!--/row -->
+	</div><!--/container -->
+
+
+
+
+
+	<!-- Footer strting -->
+	<div id="footerwrap">
+		<div class="container">
+			<div class="row centered">			
+				<div class="col-lg-4 col-lg-offset-4">
+					<p>SNL rediscovered in India :P.</p>
+				</div>			
+			</div>
+		
+		</div>
+	</div>
+	<!-- End footer -->
+
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+
+	<script src="{% static "website/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "website/js/dropdown.js" %}"></script>
+	<!-- // <script src="{% static "website/js/modal.js" %}"></script> -->
+	<script src="{% static "website/js/main.js" %}"></script>
+	<!-- //-end- concat_js -->
+
+
+	
+
+</body>
+</html>

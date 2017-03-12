@@ -40,7 +40,10 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [x] Setup for the dataset
 - [X] Create views - main page, all episodes, episode x, all seasons, season x, title x, all hosts, all actors, popular (test pages only)
 - [ ] Get the backend queries right
-- [ ] make a frontend
+- [x] Basic frontend layout
+- [x] Seasons Page
+- [x] Season Page
+- [ ] Episodes Page
 - [ ] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible

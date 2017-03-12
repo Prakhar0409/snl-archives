@@ -4,7 +4,7 @@ from django.db import connection
 
 # Attractive Main page
 def index(request):
-	return HttpResponse("This is Saturday Night Live!")
+	return render(request,'website/index.html')
 
 # Attractive Main page testing
 def index1(request):
