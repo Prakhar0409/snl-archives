@@ -1,0 +1,10 @@
+<h1>SNL Episode: {{ eid }} from Season: {{ sid }}</h1>
+
+{% for title in titles %}
+<div>
+	<p>Title: {{ title.3 }}</p>
+	<p>Show Type: {{ title.4 }}</p>
+	<p>tid: {{ title.2 }}</p>
+</div>
+<hr/>
+{% endfor %}

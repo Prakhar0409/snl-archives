@@ -1,0 +1,10 @@
+<h1>SNL Actors</h1>
+
+{% for actor in actors %}
+<div>
+	<p>Name: {{ actor.1 }}</p>
+	<p>is Cast: {{ actor.2 }}</p>
+	<p>aid: {{ actor.0 }}</p>
+</div>
+<hr/>
+{% endfor %}

@@ -9,7 +9,7 @@ urlpatterns = [
 	url(r'^season/(?P<sid>[0-9]+)$',views.season,name='season'),
 	
 	url(r'^episodes/$',views.all_episodes,name='all_episodes'),
-	url(r'^episode/(?P<eid>[0-9]+)$',views.episode,name='episode'),
+	url(r'^episode/(?P<sid_eid>[0-9]+_[0-9]+)$',views.episode,name='episode'),
 	
 	url(r'^title/(?P<tid>[0-9]+)$',views.title,name='title'),
 	

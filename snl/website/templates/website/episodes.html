@@ -1,0 +1,16 @@
+<h1>SNL Episodes</h1>
+
+<table>
+<tr>
+	<th>Season</th>
+	<th>Episode</th>
+	<th>Aired on</th>
+</tr>
+{% for e in episodes %}
+<tr>
+	{% for d in e %}
+	<td>{{ d }}</td>
+	{% endfor %}
+</tr>
+{% endfor %}
+</table>

@@ -1,0 +1,15 @@
+<h1>SNL Seasons</h1>
+
+<table>
+<tr>
+	<th>Season</th>
+	<th>Year</th>
+</tr>
+{% for s in seasons %}
+<tr>
+	{% for d in s %}
+	<td>{{ d }}</td>
+	{% endfor %}
+</tr>
+{% endfor %}
+</table>
