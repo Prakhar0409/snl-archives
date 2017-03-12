@@ -1,4 +1,76 @@
-<h1>SNL Episode: {{ eid }} from Season: {{ sid }}</h1>
+{% extends 'website/base.html' %}
+{% load static %}
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static "website/css/titles.css" %}">
+{% endblock %}
+
+{% block workwrap %}
+	<h1>SNL S{{ sid }}_E{{ eid }}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+
+		{% for title in titles %}
+			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+				
+				{% if title.4 == 'Monologue' %}
+					<div class="offer offer-radius offer-primary titleDiv">
+				{% else %}
+					{% if title.4 == 'Sketch' %}
+						<div class="offer offer-radius offer-danger titleDiv">
+					{% else %}
+						{% if title.4 == 'Show' %}
+							<div class="offer offer-radius offer-default titleDiv">
+						{% else %}
+							{% if title.4 == 'Musical Performance' or title.4 == 'Guest Performance' %}
+								<div class="offer offer-radius offer-success titleDiv">
+							{% else %}
+								{% if title.4 == 'Weekend Update' or title.4 == 'Commercial' or title.4 == 'Miscellaneous' %}
+									<div class="offer offer-radius offer-warning titleDiv">
+								{% else %}
+									<div class="offer offer-radius offer-info titleDiv">
+								{% endif %}
+							{% endif %}
+						{% endif %}
+					{% endif %}
+				{% endif %}
+
+						<div class="shape">
+							<div class="shape-text">
+								{{ title.4 }}								
+							</div>
+						</div>
+						<div class="offer-content">
+							<a href="/title/{{ title.2 }}">
+								<h4 class="lead">
+								{% if title.3 is None %}
+									N.A.
+								{% else %}
+									{{ title.3 }}
+								{% endif %}
+								</h4>						
+							</a>
+							<p>
+								<a href="/title/{{ title.2 }}">Title No.: {{ title.2 }}</a>
+								<br>
+								<!-- <a href="/type/{{ title.4 }}"> -->
+									<center>~~ {{ title.4 }} ~~</center>
+								<!-- </a> -->
+							</p>
+						</div>
+					</div>
+
+			</div>
+		{% endfor %}
+
+	</div>
+</div>
+
+
+
 
 {% for title in titles %}
 <div>
@@ -8,3 +80,4 @@
 </div>
 <hr/>
 {% endfor %}
+{% endblock %}

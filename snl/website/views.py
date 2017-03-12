@@ -56,7 +56,10 @@ def episode(request,sid_eid):
 
 	print(titles)
 	return render(request,'website/episode.html',{'sid':sid,'eid':eid,'titles':titles})
-	return HttpResponse("Episode description and titles in episode: "+eid)
+
+def type(request,showtype):
+	return HttpResponse("showtype "+showtype+" selected!")
+
 
 # Title
 def title(request,tid):
@@ -83,6 +86,7 @@ def title(request,tid):
 			unknown.append(a)
 	return render(request,'website/title.html',{'title':title,'cast':cast,'crew':crew,'host':host,
 											'music':music,'cameo':cameo,'unknown':unknown,'actors':actors})
+
 
 # actors
 def all_actors(request):

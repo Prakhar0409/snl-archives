@@ -15,6 +15,8 @@ urlpatterns = [
 	url(r'^episode/(?P<sid_eid>[0-9]+_[0-9]+)$',views.episode,name='episode'),
 	
 	url(r'^title/(?P<tid>[0-9]+)$',views.title,name='title'),
+
+	url(r'^type/(?P<showtype>[A-Za-z\ ]+)$',views.type,name='type'),
 	
 	url(r'^actors/$',views.all_actors,name='all_actors'),
 	url(r'^actor/(?P<aid>[A-Za-z_]+)$',views.actor,name='actor'),

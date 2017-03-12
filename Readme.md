@@ -47,7 +47,13 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [ ] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible
+- [ ] Add an option for show type and uncomment the hyperlink in episode.html
 
 ## BUGS
 
 - Actor ID (aid) has spaces //change them to underscores or something everywhere - or replace underscore with space after getting the aid
+
+
+## Credits
+* titles page blocks inspired from: http://bootsnipp.com/snippets/2G7o 
+* Front page inspired from: 

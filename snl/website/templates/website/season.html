@@ -1,16 +1,35 @@
-<h1>SNL Episodes in season: {{ sid }}</h1>
+{% extends 'website/base.html' %}
+{% block extrahead %}
+{% endblock %}
 
-<table>
-<tr>
-	<th>Season</th>
-	<th>Episode</th>
-	<th>Aired on</th>
-</tr>
-{% for e in episodes %}
-<tr>
-	{% for d in e %}
-	<td>{{ d }}</td>
-	{% endfor %}
-</tr>
-{% endfor %}
+{% block workwrap %}
+	<h1>SNL Season {{ sid }}</h1>
+{% endblock %}
+
+{% block content %}
+<div class='row'>
+	<div class='col-md-offset-4 col-md-4'>
+
+<table class="table-bordered table-condensed table table-hover">
+  <thead>
+    <tr>
+    	<th>Season</th>
+		<th>Episode #</th>
+		<th>Aired On</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+  {% for episode in episodes %}
+    <tr onclick="window.document.location='/episode/{{ episode.0 }}_{{ episode.1 }}';">
+      <th scope="row">{{ episode.0 }}</th>
+      <th scope="row">{{ episode.1 }}</th>
+      <td>{{ episode.2 }}</td>
+    </tr>
+    
+  {% endfor %}
+  </tbody>
 </table>
+</div>
+</div>
+{% endblock %}
