@@ -16,8 +16,9 @@
 * To set up the database:
   * open postgresql
   * create a user with username: `snl` and password: `snl_live`. 
-  * create a database with name `snldb` and owner `snl`
+  * create a database with name `snldb` and owner `snl` (remeber to grant all priveleges to user `snl` over schemas in the `snldb`)
 * Get back to you project (in the directory where manage.py resides) and type `python manage.py migrate`
+* Inside the cloned project folder `/data/pgdb/populate.sql` requires proper changes to the file paths and then can be run in a psql shell to populate the database. (The dataset has already been resolved of the referential integrity errors and has been brought to 1NF and 2NF)
 
 
 ### Running the project
@@ -43,7 +44,9 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [x] Basic frontend layout
 - [x] Seasons Page
 - [x] Season Page
-- [ ] Episodes Page
+- [x] Episodes Page
+- [x] Episode listing titles Page
+- [ ] Title Page
 - [ ] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible
