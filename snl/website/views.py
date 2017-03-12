@@ -6,6 +6,22 @@ from django.db import connection
 def index(request):
 	return HttpResponse("This is Saturday Night Live!")
 
+# Attractive Main page testing
+def index1(request):
+	return render(request,'website/index1.html')
+
+# Attractive Main page testing
+def index2(request):
+	return render(request,'website/index2.html')
+
+
+# Display all seasons
+def test(request):
+	cursor = connection.cursor()
+	cursor.execute('SELECT * FROM season')
+	seasons = cursor.fetchall()
+	return render(request,'website/test.html',{'seasons':seasons})
+
 # Display all seasons
 def all_seasons(request):
 	cursor = connection.cursor()

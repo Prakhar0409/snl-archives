@@ -1,7 +1,10 @@
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 
 from . import views
 
+app_name = 'website'
 urlpatterns = [
 	url(r'^$',views.index,name='index'),
 	
@@ -17,4 +20,12 @@ urlpatterns = [
 	url(r'^actor/(?P<aid>[A-Za-z_]+)$',views.actor,name='actor'),
 	
 	url(r'^popular/$',views.popular,name='popular'),
-]
+
+	url(r'^test/$',views.test,name='test'),
+
+	url(r'^index1/$',views.index1,name='index1'),
+	url(r'^index2/$',views.index2,name='index2'),
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+#if settings.DEBUG:
+#	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
