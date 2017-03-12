@@ -38,9 +38,13 @@ Note: For installing virtualenv and setting up git config and other proxy config
 ## TODO
 
 - [x] Setup for the dataset
-- [ ] Create views - main page, all episodes, episode x, all seasons, season x, title x, all hosts, all actors, popular (test pages only)
+- [X] Create views - main page, all episodes, episode x, all seasons, season x, title x, all hosts, all actors, popular (test pages only)
 - [ ] Get the backend queries right
 - [ ] make a frontend
 - [ ] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible
+
+## BUGS
+
+- Actor ID (aid) has spaces //change them to underscores or something everywhere - or replace underscore with space after getting the aid
