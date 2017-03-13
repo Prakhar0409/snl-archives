@@ -40,7 +40,17 @@ def season(request,sid):
 # Display all episodes sorted in some order
 def all_episodes(request):
 	cursor = connection.cursor()
-	cursor.execute('SELECT * FROM episode ORDER BY sid DESC,eid')
+	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating \
+		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
+	episodes = cursor.fetchall()
+	# print(episodes)
+	return render(request,'website/episodes.html',{'episodes':episodes})
+
+# Display all episodes sorted in some order
+def all_episodes_ratings(request):
+	cursor = connection.cursor()
+	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating \
+		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY avg_rating DESC,sid DESC,eid')
 	episodes = cursor.fetchall()
 	# print(episodes)
 	return render(request,'website/episodes.html',{'episodes':episodes})
@@ -59,8 +69,20 @@ def episode(request,sid_eid):
 	print(tid_list)
 	cursor.execute('SELECT a.aid,a.name FROM actor AS a, actor_title AS at WHERE at.tid = ANY(%s) AND a.aid=at.aid', [tid_list,])
 	actors = cursor.fetchall()
-	# print(actors)
-	return render(request,'website/episode.html',{'sid':sid,'eid':eid,'titles':titles,'actors':actors})
+	
+	#for ratings
+	cursor.execute('SELECT  (one+two+three+four+five+six+seven+eight+nine+ten) AS votes, (one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)/(one+two+three+four+five+six+seven+eight+nine+ten) as avg_rating, \
+		 age18_29, age18_29_avg, age30_44, age30_44_avg, age45p, age45p_avg, age18m, age18m_avg, \
+		non_us, non_us_avg, us,us_avg FROM rating WHERE sid=%s AND eid=%s', [sid,eid])
+	rating = cursor.fetchone()
+	# print(len(rating)) 
+	rating = list(rating)
+	for i in range(0,len(rating)):
+		if rating[i] is None:
+			rating[i]=0
+	print(rating)
+	# rating=rating_tmp
+	return render(request,'website/episode.html',{'sid':sid,'eid':eid,'titles':titles,'actors':actors,'rating':rating})
 
 def type(request,showtype):
 	return HttpResponse("showtype "+showtype+" selected!")
@@ -110,12 +132,7 @@ def all_actors(request):
 	cursor = connection.cursor()
 	cursor.execute('SELECT * FROM actor ORDER BY aid DESC')
 	actors = cursor.fetchall()
-	# actors = []
-	# for a in actors_tmp:
-	# 	cursor.execute('SELECT COUNT(*) FROM actor_title WHERE aid=%s', [a[0]])
-	# 	shows = cursor.fetchone()
-	# 	actors.append(a+shows)
-	# print(actors[0])
+
 	return render(request,'website/actors.html',{'actors': actors})
 
 # actorX

@@ -65,3 +65,5 @@ Note: For installing virtualenv and setting up git config and other proxy config
 ## Credits
 * titles page blocks inspired from: http://bootsnipp.com/snippets/2G7o 
 * Front page inspired from: 
+* Bootstrap-star-rating: https://github.com/kartik-v/bootstrap-star-rating
+* Description boxes for titles, actors and shows inspired from: http://bootsnipp.com/snippets/featured/product-badges-responsive
