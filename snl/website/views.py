@@ -32,7 +32,9 @@ def all_seasons(request):
 # Details in a season
 def season(request,sid):
 	cursor = connection.cursor()
-	cursor.execute('SELECT * FROM episode WHERE sid=%s ORDER BY eid', [sid])
+	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating \
+		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
+	# cursor.execute('SELECT * FROM episode WHERE sid=%s ORDER BY eid', [sid])
 	episodes = cursor.fetchall()
 	# print(episodes)
 	return render(request,'website/season.html',{'sid':sid,'episodes':episodes})
@@ -120,8 +122,6 @@ def title(request,tid):
 			cameo.append(a)
 		else:
 			unknown.append(a)
-	# print(host)
-	# crew = cameo = music = unknown = host = cast
 	return render(request,'website/title.html',{'title':title,'cast':cast,'crew':crew,'host':host,
 											'music':music,'cameo':cameo,'unknown':unknown,'actors':actors})
 
@@ -145,7 +145,7 @@ def actor(request,aid):
 	print(actor)
 	cursor.execute('SELECT at.tid,t.name,t.type,at.type,t.sid,t.eid FROM actor_title AS at, title AS t WHERE aid=%s AND at.tid = t.tid ', [aid])
 	titles = cursor.fetchall()
-	num = len(titles)
+	# num = len(titles)
 	return render(request,'website/actor.html',{'actor': actor,'titles':titles,'num':num})
 
 # popular episodes
