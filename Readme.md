@@ -50,9 +50,9 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [x] Actors Page
 - [x] Actor X Page
 - [X] Frontend checks  
-- [ ] add ratings to episode
+- [X] add ratings to episode
 - [ ] popular page
-- [ ] integrate
+- [X] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible
 - [ ] Add an option for show type and uncomment the hyperlink in episode.html
