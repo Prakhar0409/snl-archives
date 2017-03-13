@@ -68,6 +68,9 @@ a:hover{
   .titleDiv{
   	height:180px;
   }
+  .inTitleActor{
+  	height:160px;
+  }
 }
 @media (min-width: 900px) {
   .container {
@@ -78,6 +81,9 @@ a:hover{
   }
   .titleDiv{
   	height:200px;
+  }
+  .inTitleActor{
+  	height:160px;
   }
 }
 
@@ -92,4 +98,15 @@ a:hover{
   .titleDiv{
   	height:200px;
   }
+  .inTitleActor{
+  	height:160px;
+  }
+}
+
+.circle:before {
+  content: ' \25CF';
+  color: #ff0000;
+  font-size: 20px;
+  text-align: right;
+  margin-left: 46%;
 }

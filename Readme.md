@@ -46,7 +46,12 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [x] Season Page
 - [x] Episodes Page
 - [x] Episode listing titles Page
-- [ ] Title Page
+- [x] Title Page
+- [x] Actors Page
+- [x] Actor X Page
+- [ ] Frontend checks  
+- [ ] add ratings to episode
+- [ ] popular page
 - [ ] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible

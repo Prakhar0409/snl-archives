@@ -1,10 +1,49 @@
-<h1>SNL Actors</h1>
+{% extends 'website/base.html' %}
+{% load static %}
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static "website/css/titles.css" %}">
+{% endblock %}
 
+{% block workwrap %}
+	<h1>SNL Actors</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class='row'>
 {% for actor in actors %}
-<div>
-	<p>Name: {{ actor.1 }}</p>
-	<p>is Cast: {{ actor.2 }}</p>
-	<p>aid: {{ actor.0 }}</p>
-</div>
-<hr/>
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-info inTitleActor">
+			<div class="shape">
+				<a href="/actor/{{ h.0 }}">
+					<div class="shape-text">
+					{{ h.0 }}								
+					</div>
+				</a>
+				{% if actor.2 == 1 %}
+						<span class="circle"></span>
+					{% endif %}
+			</div>
+			<div class="offer-content">
+				<a href="/actor/{{ actor.0 }}">
+					<h4 class="lead">
+					{% if actor.1 is None %}
+						N.A.
+					{% else %}
+						{{ actor.1 }}
+					{% endif %}
+					</h4>						
+				</a>
+				<p>
+					<a href="/actor/{{ actor.0 }}">ID : {{ actor.0 }}</a>
+					<br><br>
+					Click card to know more...
+						
+					
+				</p>
+			</div>
+		</div>
+	</div>
 {% endfor %}
+</div>
+{% endblock %}

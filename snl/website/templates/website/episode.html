@@ -10,10 +10,13 @@
 
 {% block content %}
 
-<div class="container">
+<!-- <div class="container"> -->
 	<div class="row">
 
 		{% for title in titles %}
+			{% if forloop.first %}
+				<h2>Titles</h2>
+			{% endif %}
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 				
 				{% if title.4 == 'Monologue' %}
@@ -67,17 +70,42 @@
 		{% endfor %}
 
 	</div>
-</div>
-
-
-
-
-{% for title in titles %}
-<div>
-	<p>Title: {{ title.3 }}</p>
-	<p>Show Type: {{ title.4 }}</p>
-	<p>tid: {{ title.2 }}</p>
-</div>
+<!-- </div> -->
 <hr/>
-{% endfor %}
+	<div class='row'>
+	{% for actor in actors %}
+		{% if forloop.first %}
+			<h2>Actors</h2>
+		{% endif %}
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="offer offer-radius offer-info inTitleActor">
+				<div class="shape">
+					<a href="/actor/{{ actor.0 }}">
+					<div class="shape-text">
+					{{ actor.0 }}								
+					</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ actor.0 }}">
+						<h4 class="lead">
+						{% if actor.1 is None %}
+							N.A.
+						{% else %}
+							{{ actor.1 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ actor.0 }}">ID : {{ actor.0 }}</a>
+						<br><br>
+						Click card to know more...
+					</p>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+
+
 {% endblock %}

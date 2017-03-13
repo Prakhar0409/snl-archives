@@ -1,6 +1,283 @@
-<h1>SNL Title: {{ title.2 }} from Season: {{ title.0 }} Episode: {{ title.1 }}</h1>
+{% extends 'website/base.html' %}
+{% load static %}
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static "website/css/titles.css" %}">
+{% endblock %}
 
+{% block workwrap %}
+	{% if title.3 is None %}
+		<h1>S{{ title.0 }}_E{{ title.1 }} - {{ title.2 }} </h1>
+	{% else %}
+		<h1>S{{ title.0 }}_E{{ title.1 }} - {{ title.3 }} </h1>
+	{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<!-- FOR HOSTS -->
 {% for h in host %}
-<p>{{ h.3 }}</p>
+	{% if forloop.first %}
+	<div class="row">
+		<h3>Hosts</h3>
+	{% endif %}
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-primary inTitleActor">
+		<div class="shape">
+					<a href="/actor/{{ h.0 }}">
+						<div class="shape-text">
+						{{ h.0 }}								
+						</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ h.0 }}">
+						<h4 class="lead">
+						{% if h.2 is None %}
+							N.A.
+						{% else %}
+							{{ h.2 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ h.0 }}">ID : {{ h.0 }}</a>
+						<br>
+							
+						{% if h.1 == 1 %}
+							<span class="circle"></span>
+						{% endif %}
+					</p>
+				</div>
+			</div>
 
+	</div>
+
+	{% if forloop.last %}
+		</div>
+		<hr/>
+	{% endif %}
 {% endfor %}
+
+<!-- FOR CASTS -->
+{% for h in cast %}
+	{% if forloop.first %}
+	<div class="row">
+		<h3>CASTS</h3>
+	{% endif %}
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-default inTitleActor">
+		<div class="shape">
+					<a href="/actor/{{ h.0 }}">
+						<div class="shape-text">
+						{{ h.0 }}								
+						</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ h.0 }}">
+						<h4 class="lead">
+						{% if h.2 is None %}
+							N.A.
+						{% else %}
+							{{ h.2 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ h.0 }}">ID : {{ h.0 }}</a>
+						<br>
+							
+						{% if h.1 == 1 %}
+							<span class="circle"></span>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+
+	</div>
+
+	{% if forloop.last %}
+		</div>
+		<hr/>
+	{% endif %}
+{% endfor %}
+
+<!-- FOR CREW -->
+{% for h in crew %}
+	{% if forloop.first %}
+	<div class="row">
+		<h3>CREW</h3>
+	{% endif %}
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-warning inTitleActor">
+		<div class="shape">
+					<a href="/actor/{{ h.0 }}">
+						<div class="shape-text">
+						{{ h.0 }}								
+						</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ h.0 }}">
+						<h4 class="lead">
+						{% if h.2 is None %}
+							N.A.
+						{% else %}
+							{{ h.2 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ h.0 }}">ID : {{ h.0 }}</a>
+						<br>
+							
+						{% if h.1 == 1 %}
+							<span class="circle"></span>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+
+	</div>
+
+	{% if forloop.last %}
+		</div>
+		<hr/>
+	{% endif %}
+{% endfor %}
+
+<!-- FOR Music -->
+{% for h in host %}
+	{% if forloop.first %}
+	<div class="row">
+		<h3>MUSIC Guests</h3>
+	{% endif %}
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-danger inTitleActor">
+		<div class="shape">
+					<a href="/actor/{{ h.0 }}">
+						<div class="shape-text">
+						{{ h.0 }}								
+						</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ h.0 }}">
+						<h4 class="lead">
+						{% if h.2 is None %}
+							N.A.
+						{% else %}
+							{{ h.2 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ h.0 }}">ID : {{ h.0 }}</a>
+						<br>
+							
+						{% if h.1 == 1 %}
+							<span class="circle"></span>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+
+	</div>
+
+	{% if forloop.last %}
+		</div>
+		<hr/>
+	{% endif %}
+{% endfor %}
+
+<!-- FOR Cameo -->
+{% for h in host %}
+	{% if forloop.first %}
+	<div class="row">
+		<h3>CAMEO</h3>
+	{% endif %}
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-success inTitleActor">
+		<div class="shape">
+					<a href="/actor/{{ h.0 }}">
+						<div class="shape-text">
+						{{ h.0 }}								
+						</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ h.0 }}">
+						<h4 class="lead">
+						{% if h.2 is None %}
+							N.A.
+						{% else %}
+							{{ h.2 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ h.0 }}">ID : {{ h.0 }}</a>
+						<br>
+							
+						{% if h.1 == 1 %}
+							<span class="circle"></span>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+
+	</div>
+
+	{% if forloop.last %}
+		</div>
+		<hr/>
+	{% endif %}
+{% endfor %}
+
+<!-- FOR Unknown-->
+{% for h in host %}
+	{% if forloop.first %}
+	<div class="row">
+		<h3>MISC</h3>
+	{% endif %}
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+		<div class="offer offer-radius offer-info inTitleActor">
+		<div class="shape">
+					<a href="/actor/{{ h.0 }}">
+						<div class="shape-text">
+						{{ h.0 }}								
+						</div>
+					</a>
+				</div>
+				<div class="offer-content">
+					<a href="/actor/{{ h.0 }}">
+						<h4 class="lead">
+						{% if h.2 is None %}
+							N.A.
+						{% else %}
+							{{ h.2 }}
+						{% endif %}
+						</h4>						
+					</a>
+					<p>
+						<a href="/actor/{{ h.0 }}">ID : {{ h.0 }}</a>
+						<br>
+							
+						{% if h.1 == 1 %}
+							<span class="circle"></span>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+
+	</div>
+
+	{% if forloop.last %}
+		</div>
+		<hr/>
+	{% endif %}
+{% endfor %}
+
+
+{% endblock %}

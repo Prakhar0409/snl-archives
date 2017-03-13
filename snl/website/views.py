@@ -53,9 +53,14 @@ def episode(request,sid_eid):
 	cursor = connection.cursor()
 	cursor.execute('SELECT * FROM title WHERE sid=%s AND eid=%s ORDER BY tid ', [sid,eid])
 	titles = cursor.fetchall()
-
-	print(titles)
-	return render(request,'website/episode.html',{'sid':sid,'eid':eid,'titles':titles})
+	tid_list = []
+	for t in titles:
+		tid_list.append(t[2])
+	print(tid_list)
+	cursor.execute('SELECT a.aid,a.name FROM actor AS a, actor_title AS at WHERE at.tid = ANY(%s) AND a.aid=at.aid', [tid_list,])
+	actors = cursor.fetchall()
+	# print(actors)
+	return render(request,'website/episode.html',{'sid':sid,'eid':eid,'titles':titles,'actors':actors})
 
 def type(request,showtype):
 	return HttpResponse("showtype "+showtype+" selected!")
@@ -68,31 +73,49 @@ def title(request,tid):
 	cursor.execute('SELECT * FROM title WHERE tid=%s ', [tid])
 	title = cursor.fetchone()
 	print(title)
-	cursor.execute('SELECT * FROM actor_title WHERE tid=%s ', [tid])
+	cursor.execute('SELECT a.aid,isCast,name,type FROM actor_title AS at, actor AS a WHERE tid=%s AND at.aid = a.aid ', [tid])
 	actors = cursor.fetchall()
-	crew = cast = host = music = cameo = unknown = []
+	crew = []
+	cast = []
+	host = []
+	music = []
+	cameo = []
+	unknown = []
+	actor_show = []
+	print(actors)
 	for a in actors:
-		if a[4]=='crew':
+		# cursor.execute('SELECT * FROM actor_title AS at, title AS t WHERE aid=%s AND t.tid = at.tid', [a[3]])
+		# shows = cursor.fetchall()
+		if a[3]=='crew':
 			crew.append(a)
-		elif a[4]=='cast':
+		elif a[3]=='cast':
 			cast.append(a)
-		elif a[4]=='host':
+		elif a[3]=='host':
 			host.append(a)
-		elif a[4]=='music':
+		elif a[3]=='music':
 			music.append(a)
-		elif a[4]=='cameo':
+		elif a[3]=='cameo':
 			cameo.append(a)
 		else:
 			unknown.append(a)
+	# print(host)
+	# crew = cameo = music = unknown = host = cast
 	return render(request,'website/title.html',{'title':title,'cast':cast,'crew':crew,'host':host,
 											'music':music,'cameo':cameo,'unknown':unknown,'actors':actors})
 
 
 # actors
+# For each actor show (name, id, if cast, number of titles, sort alphabetically)
 def all_actors(request):
 	cursor = connection.cursor()
 	cursor.execute('SELECT * FROM actor ORDER BY aid DESC')
 	actors = cursor.fetchall()
+	# actors = []
+	# for a in actors_tmp:
+	# 	cursor.execute('SELECT COUNT(*) FROM actor_title WHERE aid=%s', [a[0]])
+	# 	shows = cursor.fetchone()
+	# 	actors.append(a+shows)
+	# print(actors[0])
 	return render(request,'website/actors.html',{'actors': actors})
 
 # actorX
@@ -103,10 +126,10 @@ def actor(request,aid):
 	cursor.execute('SELECT * FROM actor WHERE aid=%s ', [aid])
 	actor = cursor.fetchone()
 	print(actor)
-	cursor.execute('SELECT * FROM actor_title WHERE aid=%s ', [aid])
+	cursor.execute('SELECT at.tid,t.name,t.type,at.type,t.sid,t.eid FROM actor_title AS at, title AS t WHERE aid=%s AND at.tid = t.tid ', [aid])
 	titles = cursor.fetchall()
+	# print(titles)
 	return render(request,'website/actor.html',{'actor': actor,'titles':titles})
-	return HttpResponse("Actor: "+aid+" and his shows")
 
 # popular episodes
 def popular(request):
