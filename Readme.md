@@ -49,7 +49,7 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [x] Title Page
 - [x] Actors Page
 - [x] Actor X Page
-- [ ] Frontend checks  
+- [X] Frontend checks  
 - [ ] add ratings to episode
 - [ ] popular page
 - [ ] integrate

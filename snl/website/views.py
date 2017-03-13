@@ -128,8 +128,8 @@ def actor(request,aid):
 	print(actor)
 	cursor.execute('SELECT at.tid,t.name,t.type,at.type,t.sid,t.eid FROM actor_title AS at, title AS t WHERE aid=%s AND at.tid = t.tid ', [aid])
 	titles = cursor.fetchall()
-	# print(titles)
-	return render(request,'website/actor.html',{'actor': actor,'titles':titles})
+	num = len(titles)
+	return render(request,'website/actor.html',{'actor': actor,'titles':titles,'num':num})
 
 # popular episodes
 def popular(request):

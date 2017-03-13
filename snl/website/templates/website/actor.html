@@ -10,7 +10,10 @@
 
 {% block content %}
 <div class="row">
-
+	<center><h2>Number of titles: {{ num }}</h2></center>
+</div>
+<hr/>
+<div class="row">
 		{% for title in titles %}
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 				
@@ -52,14 +55,16 @@
 								</h4>						
 							</a>
 							<p>
-								<a href="/title/{{ title.0 }}">Title No.: {{ title.0 }}</a>
-								<a href="/episode/{{ title.4 }}_{{ title.5 }}"> Episode: S{{ title.4 }}_E{{ title.5 }}</a>
+								<a href="/title/{{ title.0 }}"><em>Title No.:</em> {{ title.0 }}</a>
+							</p>
+							<p>	<a href="/episode/{{ title.4 }}_{{ title.5 }}"> <em>Episode:</em> S{{ title.4 }}_E{{ title.5 }}</a>
+							</p>	
 								<br>
-								<!-- <a href="/type/{{ title.4 }}"> -->
 								<!-- ROLE TYPE -->
+								<!-- <a href="/type/{{ title.4 }}"> -->
 									<center>~~ {{ title.3 }} ~~</center>
 								<!-- </a> -->
-							</p>
+							
 						</div>
 					</div>
 
