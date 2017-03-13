@@ -67,3 +67,23 @@ Note: For installing virtualenv and setting up git config and other proxy config
 * Front page inspired from: 
 * Bootstrap-star-rating: https://github.com/kartik-v/bootstrap-star-rating
 * Description boxes for titles, actors and shows inspired from: http://bootsnipp.com/snippets/featured/product-badges-responsive
+
+## Preview
+
+Front Page top:
+![Front](/preview_imgs/front.png)
+
+Front Page main:
+![Main](/preview_imgs/front2.png)
+
+All Episodes:
+![Episodes](/preview_imgs/episodes.png)
+
+EpisodeX:
+![Episode](/preview_imgs/episode.png)
+
+Actor:
+![Actor](/preview_imgs/actor.png)
+
+Title:
+![Title](/preview_imgs/title.png)
