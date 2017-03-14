@@ -23,6 +23,7 @@ urlpatterns = [
 	url(r'^actor/(?P<aid>[A-Za-z_\ ]+)$',views.actor,name='actor'),
 	
 	url(r'^popular/$',views.popular,name='popular'),
+	url(r'^search/$',views.search,name='search'),
 
 	url(r'^test/$',views.test,name='test'),
 

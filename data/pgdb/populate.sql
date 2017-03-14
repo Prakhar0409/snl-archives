@@ -28,8 +28,8 @@ foreign key (sid) references season(sid) on delete cascade
 CREATE TABLE host (
 sid int not null,
 eid int not null,
-host varchar(100),
-primary key (sid,eid,host),
+aid varchar(100),
+primary key (sid,eid,aid),
 foreign key (sid) references season(sid) on delete cascade
 );
 

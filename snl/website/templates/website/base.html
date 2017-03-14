@@ -4,7 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    
+    <meta name="description" content="SNL DBMS PROJECT THEME">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
     <title>SNL Archives</title>
 
@@ -28,6 +30,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">SNL Archives</a>
         </div>
@@ -37,6 +40,7 @@
             <li><a href="/seasons">Seasons</a></li>
             <li><a href="/episodes">Episodes</a></li>
             <li><a href="/actors">Actors</a></li>
+            <li><a href="/search">Search</a></li>
           </ul>
         </div>
       </div>
@@ -45,7 +49,10 @@
 
     <div id="workwrap">
     	<div class="container on_banner">
-    
+        <p style='color:white'>
+        {% block headermsg %}
+        {% endblock %}
+        </p>
     		{% block workwrap %}
     		{% endblock %}
 	    <!-- 

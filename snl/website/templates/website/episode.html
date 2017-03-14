@@ -38,10 +38,11 @@
 
 </div>
 
-	<div class="row">
+	
 
 		{% for title in titles %}
 			{% if forloop.first %}
+				<div class="row">
 				<h2>Titles</h2>
 			{% endif %}
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -94,14 +95,17 @@
 					</div>
 
 			</div>
+			{% if forloop.last %}
+					</div>
+				<hr/>
+			{% endif %}
 		{% endfor %}
 
-	</div>
-<!-- </div> -->
-<hr/>
-	<div class='row'>
+
+	
 	{% for actor in actors %}
 		{% if forloop.first %}
+			<div class='row'>
 			<h2>Actors</h2>
 		{% endif %}
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -131,8 +135,12 @@
 				</div>
 			</div>
 		</div>
+		{% if forloop.last %}
+			</div>
+			<hr/>
+		{% endif %}
 	{% endfor %}
-	</div>
+	
 
 
 {% endblock %}

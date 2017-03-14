@@ -69,7 +69,7 @@ def episode(request,sid_eid):
 	for t in titles:
 		tid_list.append(t[2])
 	print(tid_list)
-	cursor.execute('SELECT a.aid,a.name FROM actor AS a, actor_title AS at WHERE at.tid = ANY(%s) AND a.aid=at.aid', [tid_list,])
+	cursor.execute('SELECT a.aid,a.name FROM actor AS a, actor_title AS at WHERE at.tid = ANY(%s) AND a.aid=at.aid', [tid_list])
 	actors = cursor.fetchall()
 	
 	#for ratings
@@ -151,3 +151,75 @@ def actor(request,aid):
 # popular episodes
 def popular(request):
 	return HttpResponse("Popular episodes with their ratings")
+
+#search episodes or actors
+def search(request):
+	header_msg = 'none'
+	episodes = []
+	actor = []
+	titles = []
+	if request.method == 'POST':
+		search_for = request.POST.get('search_for','null')
+		search_param = request.POST.get('search_param','null')
+		val = request.POST.get('x','null')
+		print(search_for)
+		if search_param == 'default':
+			header_msg = 'Search filter not selected'
+		elif search_param == 'null' or val=='null' or val=='':
+			header_msg = 'Invalid search query'
+		
+		elif search_for=='episodes':
+			print('Search by episode')
+			val = '%' + val + '%'
+			if search_param == 'host':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT e.sid,e.eid,e.aired,h.aid FROM host as h, episode as e WHERE aid ILIKE %s AND e.sid=h.sid AND e.eid = h.eid ORDER BY e.sid DESC,e.eid', [val])
+				episodes = cursor.fetchall()
+				print(episodes)
+			elif search_param == 'actor' or search_param== 'music':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT e.sid,e.eid,e.aired,y.name from episode as e,title as t,(SELECT at.tid,x.name from (SELECT a.aid,a.name FROM actor AS a WHERE a.name ILIKE %s) as x, actor_title AS at WHERE at.aid = x.aid) as y WHERE t.tid=y.tid AND e.sid = t.sid AND e.eid = t.eid ORDER BY e.sid DESC,e.eid', [val])
+				episodes = cursor.fetchall()
+				print(episodes)
+			elif search_param == 'title':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT e.sid,e.eid,e.aired,t.name from episode as e,title as t WHERE t.name ILIKE %s AND t.sid = e.sid AND t.eid = e.eid ORDER BY e.sid DESC,e.eid', [val])
+				episodes = cursor.fetchall()
+				print(episodes)
+		elif search_for == 'titles':
+			print('search by title')
+			val = '%' + val + '%'
+			if search_param == 'host':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid,h.aid FROM title as t, host as h WHERE aid ILIKE %s AND t.sid=h.sid AND t.eid = h.eid', [val])
+				titles = cursor.fetchall()
+				print(titles)
+			elif search_param == 'actor' or search_param== 'music':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid,y.name FROM title AS t, (SELECT at.tid,x.name FROM actor_title AS at, (SELECT a.aid,a.name from actor AS a WHERE a.name ILIKE %s) AS x WHERE at.aid=x.aid) AS y WHERE t.tid = y.tid', [val])
+				titles = cursor.fetchall()
+				print(titles)
+			elif search_param == 'title':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid from title as t WHERE t.name ILIKE %s ', [val])
+				titles = cursor.fetchall()
+				print(titles)
+		elif search_for == 'actors':
+			print('search by actor')
+			val = '%' + val + '%'
+			if search_param == 'host':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT a.aid,a.name FROM actor as a, host as h WHERE a.name ILIKE %s AND a.aid=h.aid', [val])
+				actors = cursor.fetchall()
+				print(actors)
+			elif search_param == 'actor' or search_param== 'music':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT a.aid,a.name FROM actor AS a ', [val])
+				actors = cursor.fetchall()
+				print(actors)
+			elif search_param == 'title':
+				cursor = connection.cursor()
+				cursor.execute('SELECT DISTINCT a.aid,a.name from actor as a, (SELECT at.aid FROM actor_title as at, (SELECT t.tid FROM title as t WHERE t.name ILIKE %s) as x WHERE x.tid=at.tid) as y AND y.aid=a.aid ', [val])
+				actors = cursor.fetchall()
+				print(actors)
+	return render(request,'website/search.html',{'header':header_msg,'episodes':episodes,'actor':actor,'titles':titles})

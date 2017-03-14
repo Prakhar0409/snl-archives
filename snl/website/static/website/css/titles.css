@@ -71,6 +71,9 @@ a:hover{
   .inTitleActor{
   	height:160px;
   }
+  .searchTitleDiv{
+    height: 250px;
+  }
 }
 @media (min-width: 900px) {
   .container {
@@ -85,6 +88,9 @@ a:hover{
   .inTitleActor{
   	height:160px;
   }
+  .searchTitleDiv{
+    height: 250px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -94,12 +100,14 @@ a:hover{
   .col-lg-3 {
     width: 25%;
   }
-
   .titleDiv{
   	height:200px;
   }
   .inTitleActor{
   	height:160px;
+  }
+  .searchTitleDiv{
+    height: 250px;
   }
 }
 
