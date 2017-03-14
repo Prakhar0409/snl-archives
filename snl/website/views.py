@@ -33,7 +33,7 @@ def all_seasons(request):
 def season(request,sid):
 	cursor = connection.cursor()
 	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating \
-		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
+		 FROM episode AS e, rating AS r WHERE r.sid = %s AND e.sid = %s AND r.eid = e.eid ORDER BY sid DESC,eid',[sid,sid])
 	# cursor.execute('SELECT * FROM episode WHERE sid=%s ORDER BY eid', [sid])
 	episodes = cursor.fetchall()
 	# print(episodes)
@@ -69,7 +69,7 @@ def episode(request,sid_eid):
 	for t in titles:
 		tid_list.append(t[2])
 	print(tid_list)
-	cursor.execute('SELECT a.aid,a.name FROM actor AS a, actor_title AS at WHERE at.tid = ANY(%s) AND a.aid=at.aid', [tid_list])
+	cursor.execute('SELECT DISTINCT a.aid,a.name FROM actor AS a, actor_title AS at WHERE at.tid = ANY(%s) AND a.aid=at.aid ', [tid_list])
 	actors = cursor.fetchall()
 	
 	#for ratings
@@ -130,9 +130,8 @@ def title(request,tid):
 # For each actor show (name, id, if cast, number of titles, sort alphabetically)
 def all_actors(request):
 	cursor = connection.cursor()
-	cursor.execute('SELECT * FROM actor ORDER BY aid DESC')
+	cursor.execute('SELECT * FROM actor ORDER BY LOWER(aid) DESC')
 	actors = cursor.fetchall()
-
 	return render(request,'website/actors.html',{'actors': actors})
 
 # actorX
@@ -143,8 +142,11 @@ def actor(request,aid):
 	cursor.execute('SELECT * FROM actor WHERE aid=%s ', [aid])
 	actor = cursor.fetchone()
 	print(actor)
-	cursor.execute('SELECT at.tid,t.name,t.type,at.type,t.sid,t.eid FROM actor_title AS at, title AS t WHERE aid=%s AND at.tid = t.tid ', [aid])
+	cursor.execute('SELECT DISTINCT at.tid,t.name,t.type,at.type,t.sid,t.eid FROM actor_title AS at, title AS t WHERE aid=%s AND at.tid = t.tid ', [aid])
 	titles = cursor.fetchall()
+	# cursor.execute('SELECT t.tid,t.name,t.type,x.type,t.sid,t.eid FROM (SELECT at.type,at.tid FROM actor_title AS at,host as h WHERE h.aid=%s AND h.aid=at.aid) AS x, title AS t WHERE x.tid = t.tid ', [aid])
+	# titles = cursor.fetchall()
+	print(titles)
 	num = len(titles)
 	return render(request,'website/actor.html',{'actor': actor,'titles':titles,'num':num})
 
@@ -191,7 +193,7 @@ def search(request):
 			val = '%' + val + '%'
 			if search_param == 'host':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid,h.aid FROM title as t, host as h WHERE aid ILIKE %s AND t.sid=h.sid AND t.eid = h.eid', [val])
+				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid,h.aid FROM title as t,actor_title as at, host as h WHERE h.aid ILIKE %s AND at.aid=h.aid AND at.tid=t.tid AND t.sid=h.sid AND t.eid = h.eid', [val])
 				titles = cursor.fetchall()
 				print(titles)
 			elif search_param == 'actor' or search_param== 'music':
@@ -201,7 +203,7 @@ def search(request):
 				print(titles)
 			elif search_param == 'title':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid from title as t WHERE t.name ILIKE %s ', [val])
+				cursor.execute('SELECT DISTINCT t.tid,t.name,t.type,t.sid,t.eid from title as t WHERE t.name ILIKE %s ORDER BY t.name ', [val])
 				titles = cursor.fetchall()
 				print(titles)
 		elif search_for == 'actors':
@@ -209,17 +211,18 @@ def search(request):
 			val = '%' + val + '%'
 			if search_param == 'host':
 				cursor = connection.cursor()
+				# print('SELECT DISTINCT a.aid,a.name FROM actor as a, host as h WHERE a.name ILIKE %s AND a.aid=h.aid', [val])
 				cursor.execute('SELECT DISTINCT a.aid,a.name FROM actor as a, host as h WHERE a.name ILIKE %s AND a.aid=h.aid', [val])
 				actors = cursor.fetchall()
 				print(actors)
 			elif search_param == 'actor' or search_param== 'music':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT a.aid,a.name FROM actor AS a ', [val])
+				cursor.execute('SELECT DISTINCT a.aid,a.name FROM actor AS a WHERE a.name ILIKE %s ', [val])
 				actors = cursor.fetchall()
 				print(actors)
 			elif search_param == 'title':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT a.aid,a.name from actor as a, (SELECT at.aid FROM actor_title as at, (SELECT t.tid FROM title as t WHERE t.name ILIKE %s) as x WHERE x.tid=at.tid) as y AND y.aid=a.aid ', [val])
+				cursor.execute('SELECT DISTINCT a.aid,a.name from actor as a, (SELECT at.aid FROM actor_title as at, (SELECT t.tid FROM title as t WHERE t.name ILIKE %s) as x WHERE x.tid=at.tid) as y WHERE y.aid=a.aid ', [val])
 				actors = cursor.fetchall()
 				print(actors)
-	return render(request,'website/search.html',{'header':header_msg,'episodes':episodes,'actor':actor,'titles':titles})
+	return render(request,'website/search.html',{'header':header_msg,'episodes':episodes,'actors':actors,'titles':titles})
