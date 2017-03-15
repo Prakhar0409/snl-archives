@@ -41,12 +41,66 @@ def season(request,sid):
 
 # Display all episodes sorted in some order
 def all_episodes(request):
-	cursor = connection.cursor()
-	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating \
-		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
-	episodes = cursor.fetchall()
+	episodes = []
+	header_msg = 'none'
+	if request.method == 'POST':
+		overall = int(request.POST.get('overall','0'))
+		age18_29 = int(request.POST.get('age18_29','0'))
+		age30_44 = int(request.POST.get('age30_44','0'))
+		age45p = int(request.POST.get('age45p','0'))
+		age18m = int(request.POST.get('age18m','0'))
+		us = int(request.POST.get('us','0'))
+		non_us = int(request.POST.get('non_us','0'))
+
+		
+		if overall > 10 or age18m > 10 or age18_29>10 or age30_44>10 or age45p>10 or us>10 or non_us>10:
+			header_msg = "ratings greater than 10 not allowed"
+			return render(request,'website/episodes.html',{'episodes':episodes,'header':header_msg})
+
+		q1 = 'SELECT * FROM tmp WHERE true' 
+		#avg_rating>%s AND age18_29_avg>%s AND age30_44_avg>%s AND age18m_avg>%s AND age45p_avg>%s AND us_avg>%s AND non_us_avg>%s \
+		q2 = ' ORDER BY sid DESC,eid'
+		if overall>0:
+			q1 += ' AND avg_rating>'+str(overall)
+		if age18_29>0:
+			q1 += ' AND age18_29_avg>'+str(age18_29)
+		if age30_44>0:
+			q1 += ' AND age30_44_avg>'+str(age30_44)
+		if age45p>0:
+			q1 += ' AND age45p_avg>'+str(age45p)
+		if age18m>0:
+			q1 += ' AND age18m_avg>'+str(age18m)
+		if us>0:
+			q1 += ' AND us_avg>'+str(us)
+		if non_us>0:
+			q1 += ' AND non_us_avg>'+str(non_us)
+		q1 += q2
+		print(q1)
+		cursor = connection.cursor()
+		cursor.execute('CREATE VIEW tmp AS SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating, \
+				age18_29_avg,age30_44_avg,age45p_avg,age18m_avg,us_avg,non_us_avg\
+				 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
+		# cursor.execute('SELECT * FROM tmp WHERE avg_rating>%s AND age18_29_avg>%s AND age30_44_avg>%s AND age18m_avg>%s AND age45p_avg>%s AND us_avg>%s AND non_us_avg>%s \
+				 # ORDER BY sid DESC,eid',[overall,age18_29,age30_44,age45p,age45p,us,non_us])
+		cursor.execute(q1)
+
+		# cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating, \
+		# 		age18_29_avg,age30_44_avg,age45p_avg,age18m_avg,us_avg,non_us_avg\
+		# 		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid \
+		# 		 avg_rating>%s AND age18_29_avg>%s AND age30_44_avg>%s AND age18m_avg>%s AND age45p_avg>%s AND us_avg>%s AND non_us_avg>%s \
+		# 		 ORDER BY sid DESC,eid',[overall,age18_29,age30_44,age45p,age45p,us,non_us])
+		episodes = cursor.fetchall()
+		cursor.execute('DROP VIEW tmp')
+
+	else:
+		cursor = connection.cursor()
+		cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating, \
+				age18_29_avg,age30_44_avg,age45p_avg,age18m_avg,us_avg,non_us_avg\
+				 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
+		episodes = cursor.fetchall()
 	# print(episodes)
-	return render(request,'website/episodes.html',{'episodes':episodes})
+	
+	return render(request,'website/episodes.html',{'episodes':episodes,'header':header_msg})
 
 # Display all episodes sorted in some order
 def all_episodes_ratings(request):
