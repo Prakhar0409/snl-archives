@@ -105,8 +105,8 @@ def all_episodes(request):
 # Display all episodes sorted in some order
 def all_episodes_ratings(request):
 	cursor = connection.cursor()
-	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating \
-		 FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY avg_rating DESC,sid DESC,eid')
+	cursor.execute('SELECT e.sid,e.eid,e.aired,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating, \
+		age18_29_avg,age30_44_avg,age45p_avg,age18m_avg,us_avg,non_us_avg FROM episode AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY avg_rating DESC,sid DESC,eid')
 	episodes = cursor.fetchall()
 	# print(episodes)
 	return render(request,'website/episodes.html',{'episodes':episodes})
