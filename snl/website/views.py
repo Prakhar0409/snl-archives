@@ -212,7 +212,7 @@ def popular(request):
 def search(request):
 	header_msg = 'none'
 	episodes = []
-	actor = []
+	actors = []
 	titles = []
 	if request.method == 'POST':
 		search_for = request.POST.get('search_for','null')
@@ -226,22 +226,64 @@ def search(request):
 		
 		elif search_for=='episodes':
 			print('Search by episode')
+			overall = int(request.POST.get('overall','0'))
+			age18_29 = int(request.POST.get('age18_29','0'))
+			age30_44 = int(request.POST.get('age30_44','0'))
+			age45p = int(request.POST.get('age45p','0'))
+			age18m = int(request.POST.get('age18m','0'))
+			us = int(request.POST.get('us','0'))
+			non_us = int(request.POST.get('non_us','0'))
+
+			
+			if overall > 10 or age18m > 10 or age18_29>10 or age30_44>10 or age45p>10 or us>10 or non_us>10:
+				header_msg = "ratings greater than 10 not allowed"
+				return render(request,'website/episodes.html',{'episodes':episodes,'header':header_msg})
+
+			q1 = 'SELECT * FROM tmp3 WHERE true' 
+			#avg_rating>%s AND age18_29_avg>%s AND age30_44_avg>%s AND age18m_avg>%s AND age45p_avg>%s AND us_avg>%s AND non_us_avg>%s \
+			q2 = ' ORDER BY sid DESC,eid'
+			if overall>0:
+				q1 += ' AND avg_rating>'+str(overall)
+			if age18_29>0:
+				q1 += ' AND age18_29_avg>'+str(age18_29)
+			if age30_44>0:
+				q1 += ' AND age30_44_avg>'+str(age30_44)
+			if age45p>0:
+				q1 += ' AND age45p_avg>'+str(age45p)
+			if age18m>0:
+				q1 += ' AND age18m_avg>'+str(age18m)
+			if us>0:
+				q1 += ' AND us_avg>'+str(us)
+			if non_us>0:
+				q1 += ' AND non_us_avg>'+str(non_us)
+			q1 += q2
+			print(q1)
 			val = '%' + val + '%'
 			if search_param == 'host':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT e.sid,e.eid,e.aired,h.aid FROM host as h, episode as e WHERE aid ILIKE %s AND e.sid=h.sid AND e.eid = h.eid ORDER BY e.sid DESC,e.eid', [val])
-				episodes = cursor.fetchall()
+				cursor.execute('CREATE VIEW tmp2 AS SELECT DISTINCT e.sid,e.eid,e.aired,h.aid as name FROM host as h, episode as e WHERE aid ILIKE %s AND e.sid=h.sid AND e.eid = h.eid ORDER BY e.sid DESC,e.eid', [val])
+			
 				print(episodes)
 			elif search_param == 'actor' or search_param== 'music':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT e.sid,e.eid,e.aired,y.name from episode as e,title as t,(SELECT at.tid,x.name from (SELECT a.aid,a.name FROM actor AS a WHERE a.name ILIKE %s) as x, actor_title AS at WHERE at.aid = x.aid) as y WHERE t.tid=y.tid AND e.sid = t.sid AND e.eid = t.eid ORDER BY e.sid DESC,e.eid', [val])
-				episodes = cursor.fetchall()
+				cursor.execute('CREATE VIEW tmp2 AS SELECT DISTINCT e.sid,e.eid,e.aired,y.name from episode as e,title as t,(SELECT at.tid,x.name from (SELECT a.aid,a.name FROM actor AS a WHERE a.name ILIKE %s) as x, actor_title AS at WHERE at.aid = x.aid) as y WHERE t.tid=y.tid AND e.sid = t.sid AND e.eid = t.eid ORDER BY e.sid DESC,e.eid', [val])
+			
 				print(episodes)
 			elif search_param == 'title':
 				cursor = connection.cursor()
-				cursor.execute('SELECT DISTINCT e.sid,e.eid,e.aired,t.name from episode as e,title as t WHERE t.name ILIKE %s AND t.sid = e.sid AND t.eid = e.eid ORDER BY e.sid DESC,e.eid', [val])
-				episodes = cursor.fetchall()
-				print(episodes)
+				cursor.execute('CREATE VIEW tmp2 AS SELECT DISTINCT e.sid,e.eid,e.aired,t.name from episode as e,title as t WHERE t.name ILIKE %s AND t.sid = e.sid AND t.eid = e.eid ORDER BY e.sid DESC,e.eid', [val])
+
+			cursor.execute('CREATE VIEW tmp3 AS SELECT e.sid,e.eid,e.aired,e.name,(one+two+three+four+five+six+seven+eight+nine+ten) AS votes, round((one*1+two*2+three*3+four*4+five*5+six*6+seven*7+eight*8+nine*9+ten*10)::decimal/(one+two+three+four+five+six+seven+eight+nine+ten)::decimal,2) as avg_rating, \
+				age18_29_avg,age30_44_avg,age45p_avg,age18m_avg,us_avg,non_us_avg\
+				 FROM tmp2 AS e, rating AS r WHERE r.sid = e.sid AND r.eid = e.eid ORDER BY sid DESC,eid')
+			cursor.execute(q1)
+			episodes = cursor.fetchall()
+			cursor.execute('DROP VIEW tmp3')
+			cursor.execute('DROP VIEW tmp2')
+			print('QUERY 1::::::')
+			print(q1)
+			
+			# print(episodes)
 		elif search_for == 'titles':
 			print('search by title')
 			val = '%' + val + '%'
