@@ -191,6 +191,7 @@ def all_actors(request):
 # actorX
 def actor(request,aid):
 	aid = aid.replace('_',' ')
+	# aid = aid.replace('\'','\'\'')
 	print(aid)
 	cursor = connection.cursor()
 	cursor.execute('SELECT * FROM actor WHERE aid=%s ', [aid])

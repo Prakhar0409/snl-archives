@@ -19,7 +19,7 @@
   * create a database with name `snldb` and owner `snl` (remeber to grant all priveleges to user `snl` over schemas in the `snldb`)
 * Get back to you project (in the directory where manage.py resides) and type `python manage.py migrate`
 * Inside the cloned project folder `/data/pgdb/populate.sql` requires proper changes to the file paths and then can be run in a psql shell to populate the database. (The dataset has already been resolved of the referential integrity errors and has been brought to 1NF and 2NF)
-
+_**Note: This does not use the Django ORM, but rather uses raw postgresql. The choice is based on the demand of the evaluater.**_
 
 ### Running the project
 
@@ -55,6 +55,7 @@ Note: For installing virtualenv and setting up git config and other proxy config
 - [X] integrate
 - [ ] add reporting newer data feature
 - [ ] logging in if possible
+- [X] Add triggers to demo postgress trigger capabilities
 - [ ] Add an option for show type and uncomment the hyperlink in episode.html
 
 ## BUGS

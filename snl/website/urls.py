@@ -20,7 +20,7 @@ urlpatterns = [
 	url(r'^type/(?P<showtype>[A-Za-z\ ]+)$',views.type,name='type'),
 	
 	url(r'^actors/$',views.all_actors,name='all_actors'),
-	url(r'^actor/(?P<aid>[A-Za-z_\ ]+)$',views.actor,name='actor'),
+	url(r'^actor/(?P<aid>[A-Za-z_\ \'0-9!é&\.-óë]+)$',views.actor,name='actor'),
 	
 	url(r'^popular/$',views.popular,name='popular'),
 	url(r'^search/$',views.search,name='search'),

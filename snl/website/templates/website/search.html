@@ -1,8 +1,17 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% block extrahead %}
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet"> -->
+<link rel="stylesheet" type="text/css" href="{% static "website/css/bootstrap3.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "website/css/titles.css" %}">
+<style type="text/css">
+	/*.input {
+		color:black;
+	} */
+	.inp1{
+		color: black;
+	}
+</style>
 {% endblock %}
 {% block headermsg %}
 	{% if header != 'none' %}
@@ -48,13 +57,13 @@
 
 			<p style='color:white;'> Use below boxes to search the episodes (Not applicable for others)</p>
 			  <p style='color:white;'>
-			  	Overall rating: <input  type="number"  name="overall" min="0" max="10" value=0>
-                   | 18-29: <input type="number" name="age18_29" min="0" max="10" value=0>
-                   | 30-44:<input type="number"  name="age30_44" min="0" max="10" value=0>
-                   | 45+:<input type="number" name="age45p" min="0" max="10" value=0>
-                   | 18-:<input type="number" name="age18m" min="0" max="10" value=0>
-                   | us voters:<input type="number" name="us" min="0" max="10" value=0>
-                   | non-us voters:<input type="number" name="non_us" min="0" max="10" value=0>
+			  	Overall rating: <input  type="number" class='inp1'  name="overall" min="0" max="10" value=0>
+                   | 18-29: <input type="number" class='inp1' name="age18_29" min="0" max="10" value=0>
+                   | 30-44:<input type="number"  class='inp1' name="age30_44" min="0" max="10" value=0>
+                   | 45+:<input type="number" class='inp1' name="age45p" min="0" max="10" value=0>
+                   | 18-:<input type="number" class='inp1' name="age18m" min="0" max="10" value=0>
+                   | us voters:<input type="number" class='inp1' name="us" min="0" max="10" value=0>
+                   | non-us voters:<input type="number" class='inp1' name="non_us" min="0" max="10" value=0>
                  </p>
 
             </form>
